@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SanphamController;
 use Illuminate\Support\Facades\DB;
-
-
+use App\Http\Middleware\AdminMiddleware;
 Route::get('/check_db', function () {
     try {
         DB::connection()->getPdo();
@@ -16,7 +15,7 @@ Route::get('/check_db', function () {
     }
 });
 
-Route::get('/index', [HomeController::class, 'index']);
+Route::get('/nguoidung', [HomeController::class, 'index']);
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -45,22 +44,8 @@ Route::get('/single', function () {
 
 
 //Route admin
-Route::get('/ad', function () {
-    return view('admin.home.admin');
-})->name('ad');
 
-Route::get('/loginad', function () {
-    return view('admin.pages.loginad');
-});
 
-//all product
-Route::get('/ad/allproduct', function () {
-    return view('admin.pages.allproduct');
-});
-//add product
-Route::get('/ad/addproduct', function () {
-    return view('admin.pages.addproduct');
-});
 
 
 // Route::get('/login', function () {
@@ -69,38 +54,38 @@ Route::get('/ad/addproduct', function () {
 
 
 // Thêm sản phẩm (hiển thị form)
-Route::get('/admin/sanpham/create', [SanphamController::class, 'create'])->name('sanpham.create');
+Route::get('/addproduct', [SanphamController::class, 'create']);
 
 // Lưu sản phẩm (xử lý form)
 Route::post('/admin/sanpham/store', [SanPhamController::class, 'store'])->name('sanpham.store');
 
-
+Route::post('/admin/login', [CheckAdminController::class, 'login'])->name('admin.login.post');
 
 
 // Trang dashboard sau khi đăng nhập thành công
 
 //add product
-Route::get('/addproduct', function () {
-    return view('admin.pages.addproduct');
-});
+// Route::get('/addproduct', function () {
+//     return view('admin.pages.addproduct');
+//  });
 
-Route::get('/test-ip', function (Illuminate\Http\Request $request) {
-    return "IP của bạn là: " . $request->attributes->get('client_ip');
-})->middleware('log.ip');
+// Route::get('/test-ip', function (Illuminate\Http\Request $request) {
+//     return "IP của bạn là: " . $request->attributes->get('client_ip');
+// })->middleware('log.ip');
 
 Route::get('/admin/login', function () {
     return view('admin.pages.login');
 })->name('admin.login');
 
 // Xử lý đăng nhập admin
-Route::post('/admin/login', [CheckAdminController::class, 'login'])->name('admin.login.post');
 
-// Route::get('/admin/login', [CheckAdminController::class, 'showLogin'])->name('admin.login');
-// Route::post('/admin/login', [CheckAdminController::class, 'login'])->name('admin.login.post');
+Route::middleware(AdminMiddleware::class)->group(function () {
+    Route::get('/ad',function(){
+        return view('layouts.admin');
+    });
+    Route::get("/logout",[CheckAdminController::class,"logout"]);
+});
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/admin/dashboard', [CheckAdminController::class, 'dashboard'])->name('admin.dashboard');
-// });
 //Route::get('/user',[UserController::class, 'show']);
 
 

@@ -79,10 +79,21 @@
 
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="tendm " class="form-label">Tên Danh Mục </label>
-                                
-                                <input type="text" class="form-control" id="tendm " name="tendm" value="{{ old('tendm') }}">
-                            </div>
+                               <form action="{{route('sanpham.store')}}" method="POST">
+                                <label for="madm"id="madm" class="form select" required>
+                                    <select class="form-select form-control" id="madm" name="madm">
+                                     <option value="">chon danh muc</option>
+                                     @foreach($danhmuc as $dm)
+                                     <option value ="{{$dm->madm}}">{{$dm->tendm}}</option>
+                                     @endforeach
+                                </select>   
+                                <div>
+                                <label>Tên danh mục:</label>
+                                <input type="text" name="tendm" placeholder="Ví dụ: Điện thoại, Laptop..." required>
+                            </div> 
+
+                        </div>
+
                             <div class="col-md-4 mb-3">
                                 <label for="soluong" class="form-label">Số Lượng </label>
                                 <input type="number" class="form-control" id="soluong" name="soluong" value="{{ old('soluong') }}">

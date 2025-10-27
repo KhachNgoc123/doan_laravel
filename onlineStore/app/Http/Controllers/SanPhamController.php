@@ -7,36 +7,34 @@ use App\Models\DanhMuc;
 class SanPhamController extends Controller {
 
     public function create() {
-    $danhmuc = DanhMuc::all(); // Lấy tất cả danh mục
-    return view('admin.sanpham.create', compact('danhmuc')); // truyền sang view
-}
-
+        $danhmuc = DanhMuc::all(); // Lấy tất cả danh mục
+        return view('admin.pages.addproduct', compact('danhmuc')); // truyền sang view
+    }
+// Validate dữ liệu
     public function store(Request $request) {
         // Validate dữ liệu
         $request->validate([
-            // 'tensp' => 'required|string|max:255',
+            'tensp' => 'required|string|max:255',
             'dongia' => 'required|numeric|min:0',
-            // 'soluong' => 'required|integer|min:0',
-            'tendm' => 'required|string|max:255', // Nếu nhập tên danh mục mới
+            'soluong' => 'required|integer|min:0',
+            
         ]);
-
-        try {
-            if($request->madm && $request->madm != 'new') {
-    $madm = $request->madm;
-} else {
-    $danhmuc = DanhMuc::firstOrCreate(['tendm' => $request->tendm]);
-    $madm = $danhmuc->madm;
-}
-
+       
             // Lưu sản phẩm
             $sanpham = new SanPham();
             $sanpham->tensp = $request->tensp;
-            $sanpham->madm = $danhmuc->madm;
+            $sanpham->madm =  $request->madm;
             $sanpham->dongia = $request->dongia;
             $sanpham->giakm = $request->dongia * 0.9; // giảm 10%
             $sanpham->soluong = $request->soluong;
             $sanpham->mota = $request->mota;
-           $sanpham->tag = $request->tag ?? null;
+            $sanpham->tag = $request->tag ?? null;
+           if($request->madm==""){
+               $danhmuc = new DanhMuc();
+               $danhmuc->tendm= $request->tendm;
+               $danhmuc->save();
+               return redirect()->back()->with('success', 'Thêm sản phẩm thành công!');
+           }
             
 
            
@@ -50,8 +48,8 @@ class SanPhamController extends Controller {
             $sanpham->save();
 
             return redirect()->back()->with('success', 'Thêm sản phẩm thành công!');
-        } catch (\Exception $e) {
+        
             return redirect()->back()->with('error', 'Thêm sản phẩm thất bại: '.$e->getMessage());
         }
     }
-}
+

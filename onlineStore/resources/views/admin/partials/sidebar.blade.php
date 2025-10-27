@@ -37,8 +37,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Thông Tin</h6>
-                        <a class="collapse-item" href="/ad/addproduct">Thêm Sản Phẩm</a>
-                        <a class="collapse-item" href="/ad/allproduct">Danh Sách Sản Phẩm</a>
+                        <a class="collapse-item" href="/addproduct">Thêm Sản Phẩm</a>
+                        <a class="collapse-item" href="/allproduct">Danh Sách Sản Phẩm</a>
                     </div>
                 </div>
             </li>
