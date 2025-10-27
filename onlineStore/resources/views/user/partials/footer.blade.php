@@ -19,6 +19,7 @@
 			 <div class="col-md-3 ftr-grid">
 					<h3>More Info</h3>
 					<ul class="nav-bottom">
+						<li><a href="loginad">Loginad</a></li>
 						<li><a href="login">Login</a></li>
 						<li><a href="#">FAQ</a></li>
 						<li><a href="contact">Contact</a></li>

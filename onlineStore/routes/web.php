@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SanphamController;
 use Illuminate\Support\Facades\DB;
 
+
 Route::get('/check_db', function () {
     try {
         DB::connection()->getPdo();
@@ -48,6 +49,18 @@ Route::get('/ad', function () {
     return view('admin.home.admin');
 })->name('ad');
 
+Route::get('/loginad', function () {
+    return view('admin.pages.loginad');
+});
+
+//all product
+Route::get('/ad/allproduct', function () {
+    return view('admin.pages.allproduct');
+});
+//add product
+Route::get('/ad/addproduct', function () {
+    return view('admin.pages.addproduct');
+});
 
 
 // Route::get('/login', function () {
