@@ -5,28 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\sanpham;
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
-
+use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function index(): Factory|View
     {
         // sanr pham moiw mhat
-        $newProducts = sanpham::orderBy('masp', 'desc')->take(10)->get();
+        
+        $newProducts = sanpham::orderBy('masp', 'desc')->take(8)->get();
 
-          $popularProducts = sanpham::orderBy('soluong', 'desc')->take(10)->get();
+        // san pham pho bien nhat
+        $popularProducts = sanpham::orderBy('soluong', 'desc')->take(8)->get();
 
-          $category1Products = sanpham::where('madm', 1)->take(10)->get();
-        $category2Products = sanpham::where('madm', 2)->take(10)->get();
-        $category3Products = sanpham::where('madm', 3)->take(10)->get();
-        return view('user.pages.index', compact(
-           'newProducts', 'popularProducts',
-            'category1Products',
-            'category2Products',
-            'category3Products'));
+        // san pham dat nhat 
+        
+      $expensiveProducts= sanpham::orderBy('dongia', 'desc')->take(8)->get();
+
+
+        return view('user.pages.index', compact('newProducts', 'popularProducts', 'expensiveProducts'));
+        
     }
-    // public function sale(): Factory|View
-    // {
-    //     $sanpham = Sanpham::take(2)->get();
-    //     return view('user.index', compact('sanpham'));
-    // }
+   
 }

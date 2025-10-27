@@ -1,75 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="vi">
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Trang đăng nhập quản trị hệ thống nội thất">
+    <meta name="author" content="Nhóm Laravel Nội Thất">
 
-    <title>SB Admin 2 - Login</title>
+    <title>Đăng nhập quản trị</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="{{ asset('admin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="admin/css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{{ asset('admin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
 
+    <!-- Custom Style -->
+    <style>
+        body {
+            background: linear-gradient(120deg, #4e73df, #224abe);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-box {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-box h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+    </style>
 </head>
 
-<body class="bg-gradient-primary">
-    
-    <div class="container">
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-            <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                                    </div>
-                                   <form method="POST" action="{{ route('admin.login.post') }}" enctype="multipart/form-data" >
-                                        @csrf
-                                        <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                name="email" id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address..." required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                name="password" id="exampleInputPassword" placeholder="Password" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </button>
-                                    </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<body>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="admin/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="admin/js/sb-admin-2.min.js"></script>
+<div class="login-box">
+    <h3><i class="fas fa-user-shield me-2"></i>Đăng nhập quản trị</h3>
+
+    <!-- Hiển thị lỗi từ Laravel -->
+    @if ($errors->any())
+        <div class="alert alert-danger p-2">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
+    <form method="POST" action="{{ route('admin.login.post') }}" enctype="multipart/form-data" > @csrf 
+         <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" id="email"
+                    placeholder="Nhập email..." required>
+                <div id="emailError" class="error-message"></div>
+            </div> 
+
+        <div class="mb-3">
+                <label for="password" class="form-label">Mật khẩu</label>
+                <input type="password" class="form-control" name="password" id="password"
+                    placeholder="Nhập mật khẩu..." required>
+                <div id="passwordError" class="error-message"></div>
+            </div> 
+
+        <button type="submit" class="btn btn-primary btn-user btn-block"> Login </button> 
+    </form>
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+    //validation 
+    // hiern thi loix javasccipt
+document.getElementById('adminLoginForm').addEventListener('submit', function(e) { // lang nghe khi form duwoc gui di 
+    const email = document.getElementById('email').value.trim();// lay gia tri nguoi dung nhap vao o email
+    const password = document.getElementById('password').value.trim();
+    const errorDiv = document.getElementById('error-message'); // getElementById hamf dungf de tim phan tu theo id 
+    let error = "";
+
+    const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/; // kiem tra email hopo le 
+
+    if (email === "") {
+        error = "Vui lòng nhập email!"; // neu khong nhap email se bao loi
+    } else if (!emailPattern.test(email)) {
+        error = "Email không hợp lệ!";
+    } else if (password === "") {
+        error = "Vui lòng nhập mật khẩu!";
+    } else if (password.length < 6) {
+        error = "Mật khẩu phải có ít nhất 6 ký tự!";
+    }
+
+    if (error) {
+        e.preventDefault();// cos loi thi ngan khong cho form guiu di 
+        errorDiv.textContent = error;
+    } else {
+        errorDiv.textContent = "";//xoa loi cu
+    }
+});
+</script>
 
 </body>
 </html>

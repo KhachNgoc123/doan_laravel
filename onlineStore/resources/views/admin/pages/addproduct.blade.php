@@ -29,29 +29,37 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid mt-4">
 
-                    <h2 class="mb-4 text-primary">🛍️ Thêm sản phẩm mới</h2>
+                    <h2 class="mb-4 text-primary"> Thêm sản phẩm mới</h2>
 
-                    @if(session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
+                                            @if(session('success'))
+                            <div class="alert alert-success">{{ session('success') }}</div>
+                        @endif
 
+                        @if(session('error'))
+                            <div class="alert alert-danger">{{ session('error') }}</div>
+                        @endif
+                        @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                     <form action="{{ route('sanpham.store') }}" method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm">
                         @csrf
 
-                        <div class="mb-3">
-                            <label for="masp" class="form-label">Mã sản phẩm</label>
-                            <input type="text" class="form-control" id="masp" name="masp" value="{{ old('masp') }}" required>
-                        </div>
 
                         <div class="mb-3">
-                            <label for="ten" class="form-label">Tên sản phẩm</label>
-                            <input type="text" class="form-control" id="ten" name="ten" value="{{ old('ten') }}" required>
+                            <label for="tensp" class="form-label">Tên sản phẩm</label>
+                            <input type="text" class="form-control" id="tensp" name="tensp" value="{{ old('tensp') }}" required>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="gia" class="form-label">Giá</label>
-                                <input type="number" class="form-control" id="gia" name="gia" value="{{ old('gia') }}" required>
+                                <label for="dongia" class="form-label">Giá</label>
+                                <input type="number" class="form-control" id="dongia" name="dongia" value="{{ old('dongia') }}" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="giakm" class="form-label">Giá khuyến mãi</label>
@@ -71,12 +79,13 @@
 
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="madm" class="form-label">Mã danh mục</label>
-                                <input type="text" class="form-control" id="madm" name="madm" value="{{ old('madm') }}">
+                                <label for="tendm " class="form-label">Tên Danh Mục </label>
+                                
+                                <input type="text" class="form-control" id="tendm " name="tendm" value="{{ old('tendm') }}">
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="loai" class="form-label">Loại</label>
-                                <input type="text" class="form-control" id="loai" name="loai" value="{{ old('loai') }}">
+                                <label for="soluong" class="form-label">Số Lượng </label>
+                                <input type="number" class="form-control" id="soluong" name="soluong" value="{{ old('soluong') }}">
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="trangthai" class="form-label">Trạng thái</label>
@@ -87,10 +96,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="tags" class="form-label">Tags</label>
-                            <input type="text" class="form-control" id="tags" name="tags" value="{{ old('tags') }}" placeholder="VD: nội thất, bàn ghế, sang trọng...">
-                        </div>
+                      
 
                         <button type="submit" class="btn btn-primary w-100">Thêm sản phẩm</button>
                     </form>

@@ -72,10 +72,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="card h-100">
                 <img src="{{ asset('images/' . $sp->hinh) }}" class="card-img-top" alt="">
                 <div class="card-body">
-                     <h4 class="card-title">{{ $sp->tensp }}</h4>
-                    <p class="card-text text-danger fw-bold">{{ number_format($sp->gia) }} VNĐ</p>
-                    <p class="card-text">{{ $sp->mota }}</p>
-                </div>
+    <h4 class="card-title">{{ $sp->tensp }}</h4>
+
+			@if($sp->giakm && $sp->giakm < $sp->dongia)
+				<p class="card-text text-muted"><del>{{ number_format($sp->dongia) }} VNĐ</del> (Giá gốc)</p>
+				<p class="card-text text-danger fw-bold">{{ number_format($sp->giakm) }} VNĐ (Giá khuyến mãi)</p>
+			@else
+				<p class="card-text text-danger fw-bold">{{ number_format($sp->dongia) }} VNĐ</p>
+			@endif
+
+    <p class="card-text">{{ $sp->mota }}</p>
+</div>
                 <div class="card-footer">
                     <small class="text-muted">Số lượng: {{ $sp->soluong }}</small>
                 </div>
@@ -90,10 +97,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="card h-100">
                 <img src="{{ asset('images/' . $sp->hinh) }}" class="card-img-top" alt="">
                 <div class="card-body">
-                    <h4 class="card-title">{{ $sp->tensp }}</h4>
-                    <p class="card-text text-danger fw-bold">{{ number_format($sp->gia) }} VNĐ</p>
-                    <p class="card-text">{{ $sp->mota }}</p>
-                </div>
+    <h4 class="card-title">{{ $sp->tensp }}</h4>
+
+				@if($sp->giakm && $sp->giakm < $sp->dongia)
+					<p class="card-text text-muted"><del>{{ number_format($sp->dongia) }} VNĐ</del> (Giá gốc)</p>
+					<p class="card-text text-danger fw-bold">{{ number_format($sp->giakm) }} VNĐ (Giá khuyến mãi)</p>
+				@else
+					<p class="card-text text-danger fw-bold">{{ number_format($sp->dongia) }} VNĐ</p>
+				@endif
+
+    <p class="card-text">{{ $sp->mota }}</p>
+</div>
                 <div class="card-footer">
                     <small class="text-muted">Số lượng: {{ $sp->soluong }}</small>
                 </div>
@@ -101,6 +115,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
     @endforeach
 </div>
+<h2 class="mt-5 mb-3">Sản phẩm đắt nhất</h2>
+<div class="row row-cols-1 row-cols-md-4 g-4">
+    @foreach($expensiveProducts as $sp)
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ asset('images/' . $sp->hinh) }}" class="card-img-top" alt="">
+                <div class="card-body">
+    <h4 class="card-title">{{ $sp->tensp }}</h4>
+
+			@if($sp->giakm && $sp->giakm < $sp->dongia)
+				<p class="card-text text-muted "><del>{{ number_format($sp->dongia) }} VNĐ</del> (Giá gốc)</p>
+				<p class="card-text text-danger fw-bold">{{ number_format($sp->giakm) }} VNĐ (Giá khuyến mãi)</p>
+			@else
+				<p class="card-text text-danger fw-bold">{{ number_format($sp->dongia) }} VNĐ</p>
+			@endif
+
+    <p class="card-text">{{ $sp->mota }}</p>
+</div>
+                <div class="card-footer">
+                    <small class="text-muted">Số lượng: {{ $sp->soluong }}</small>
+                </div>
+            </div>
+        </div>
+    @endforeach
+</div>
+
 </div>
 
 

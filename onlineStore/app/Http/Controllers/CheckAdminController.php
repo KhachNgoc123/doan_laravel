@@ -10,37 +10,33 @@ use App\Models\UserModel;
 use Illuminate\Support\Facades\Log; 
 class CheckAdminController extends Controller
 {
-        // public function login(Request $request)
-        // {
-        // $user = [
-        // 'email'=> $request->input('email'),
-        // 'password'=> $request->input('password')
-        // ];
-        // $check = UserModel::where('email', $user['email'])->exists();
-
-        // $check_ad = DB::select("SELECT iduser FROM users where email = ? and password = ? LIMIT 1", [$user->email, $user->password]);
-        // if(count($check)>0){
-        //     if(count(check_ad)>0){
-        //         return redirect('/admin');
-        //     }
-        // }
-
-   
-
-public function login(Request $request)
-{
-    $admin = UserModel::where('email', $request->email)
-                  ->where('password', $request->password)
-                  ->first();
-
-    if ($admin) {
-        // Lưu session thủ công
-        session(['admin' => $admin]);
-        return redirect('/ad'); // hoặc route bạn muốn
-    } else {
-        return back()->with('error', 'Sai tài khoản hoặc mật khẩu');
+       
+    public function login(Request $request)
+    {
+        //tim user theo email
+        $admin = \App\Models\UserModel::where('email', $request->email)->first();
+        \Log::info('Kết quả tìm user:', [$admin]);
+    // neue ton tai va mk dung
+        if ($admin && Hash::check($request->password, $admin->password)) {
+            // Lưu session thủ công
+            session(['admin' => $admin]);
+            \Log::info('Đăng nhập thành công cho user:', [$admin->email]);
+            return redirect('/ad'); // hoặc route bạn muốn
+        } else {
+            \Log::warning('Sai tài khoản hoặc mật khẩu:', [$request->email]);
+            return back()->with('error', 'Sai tài khoản hoặc mật khẩu');
+        }
+        $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:6',
+        ], 
+        [
+        'email.required' => 'Vui lòng nhập email!',
+        'email.email' => 'Email không hợp lệ!',
+        'password.required' => 'Vui lòng nhập mật khẩu!',
+        'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự!',
+        ]);
     }
-}
 
     
 }

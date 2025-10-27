@@ -10,17 +10,10 @@ class Sanpham extends Model
     protected $table = 'sanpham';
 
     // Các cột cho phép ghi dữ liệu
-    protected $fillable = [
-        'masp',
-        'ten',
-        'gia',
-        'giakm',
-        'hinh',
-        'mota',
-        'madm',
-        'tags',
-        'trangthai',
-        'userid',
-        'loai',
-    ];
+     protected $primaryKey = 'masp';
+    protected $fillable =  [ 'tensp', 'madm','giakm', 'soluong', 'mota', 'dongia', 'trangthai', 'tag', 'hinh'];
+    public $timestamps = false; 
+
+        
+
 }
