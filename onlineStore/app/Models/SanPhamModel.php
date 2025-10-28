@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SanPham extends Model
+class SanPhamModel extends Model
 {
     // Tên bảng trong database
     protected $table = 'sanpham';

@@ -79,40 +79,6 @@
     </form>
 </div>
 
-<!-- JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
-<script>
-    //validation 
-    // hiern thi loix javasccipt
-document.getElementById('adminLoginForm').addEventListener('submit', function(e) { // lang nghe khi form duwoc gui di 
-    const email = document.getElementById('email').value.trim();// lay gia tri nguoi dung nhap vao o email
-    const password = document.getElementById('password').value.trim();
-    const errorDiv = document.getElementById('error-message'); // getElementById hamf dungf de tim phan tu theo id 
-    let error = "";
-
-    const emailPattern = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/; // kiem tra email hopo le 
-
-    if (email === "") {
-        error = "Vui lòng nhập email!"; // neu khong nhap email se bao loi
-    } else if (!emailPattern.test(email)) {
-        error = "Email không hợp lệ!";
-    } else if (password === "") {
-        error = "Vui lòng nhập mật khẩu!";
-    } else if (password.length < 6) {
-        error = "Mật khẩu phải có ít nhất 6 ký tự!";
-    }
-
-    if (error) {
-        e.preventDefault();// cos loi thi ngan khong cho form guiu di 
-        errorDiv.textContent = error;
-    } else {
-        errorDiv.textContent = "";//xoa loi cu
-    }
-});
-</script>
 
 </body>
 </html>

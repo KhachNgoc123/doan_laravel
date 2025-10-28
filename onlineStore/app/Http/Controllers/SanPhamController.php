@@ -1,55 +1,79 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Models\SanPham;
-use App\Models\DanhMuc;
+use App\Models\SanPhamModel;
+use App\Models\DanhMucModel;
 
 class SanPhamController extends Controller {
-
+// Hiển thị danh sách sản phẩm đầy đủ 
+     public function index()
+    {
+        $sanpham = SanPhamModel::all();
+        return view('admin.sanpham.index', compact('sanpham'));
+    }
+//hiển thị form thêm sản phẩm 
     public function create() {
-        $danhmuc = DanhMuc::all(); // Lấy tất cả danh mục
+        $danhmuc = DanhMucModel::all(); // Lấy tất cả danh mục
         return view('admin.pages.addproduct', compact('danhmuc')); // truyền sang view
     }
-// Validate dữ liệu
-    public function store(Request $request) {
-        // Validate dữ liệu
+//Lưu sản phẩm mới vào DB 
+    public function store(Request $request)
+{
+    try {
+        // Validate dữ liệu bắt buộc
         $request->validate([
-            'tensp' => 'required|string|max:255',
-            'dongia' => 'required|numeric|min:0',
-            'soluong' => 'required|integer|min:0',
-            
+            'tensp'   => 'required|string|max:50',
+            'dongia'  => 'required|numeric|min:0',
+            'soluong' => 'nullable|integer|min:0',
+            'madm'    => 'nullable|integer',
+            'trangthai' => 'nullable|string|max:50',
         ]);
-       
-            // Lưu sản phẩm
-            $sanpham = new SanPham();
-            $sanpham->tensp = $request->tensp;
-            $sanpham->madm =  $request->madm;
-            $sanpham->dongia = $request->dongia;
-            $sanpham->giakm = $request->dongia * 0.9; // giảm 10%
-            $sanpham->soluong = $request->soluong;
-            $sanpham->mota = $request->mota;
-            $sanpham->tag = $request->tag ?? null;
-           if($request->madm==""){
-               $danhmuc = new DanhMuc();
-               $danhmuc->tendm= $request->tendm;
-               $danhmuc->save();
-               return redirect()->back()->with('success', 'Thêm sản phẩm thành công!');
-           }
-            
 
-           
-            $sanpham->trangthai = $request->trangthai;
-            if ($request->hasFile('hinh')) {
-                $file = $request->file('hinh');
-                $filename = time().'_'.$file->getClientOriginalName();
-                $file->move(public_path('uploads'), $filename);
-                $sanpham->hinh = $filename;
-            }
-            $sanpham->save();
+        $sanpham = new SanPhamModel();
 
-            return redirect()->back()->with('success', 'Thêm sản phẩm thành công!');
-        
-            return redirect()->back()->with('error', 'Thêm sản phẩm thất bại: '.$e->getMessage());
+        // Gán dữ liệu từ request, với giá trị mặc định nếu không có
+        $sanpham->tensp = $request->tensp;
+        $sanpham->dongia = $request->dongia;
+        $sanpham->giakm = $request->dongia * 0.9; 
+        $sanpham->soluong = $request->soluong ?? 0;
+        $sanpham->mota = $request->mota ?? '';
+        $sanpham->tag = $request->tag ?? null;
+        $sanpham->trangthai = $request->trangthai ?? 'còn hàng';
+
+        // Xử lý danh mục
+        if ($request->madm) {
+            $sanpham->madm = $request->madm;
+        } elseif ($request->tendm) {
+            // Thêm mới danh mục nếu người dùng nhập tên danh mục
+            $danhmuc = new DanhMucModel();
+            $danhmuc->tendm = $request->tendm;
+            $danhmuc->save();
+
+            $sanpham->madm = $danhmuc->madm;
+        } else {
+            // Nếu không có danh mục, gán mặc định
+            $danhmuc = DanhMucModel::firstOrCreate(
+                ['tendm' => 'Chưa phân loại']
+            );
+            $sanpham->madm = $danhmuc->madm;
         }
+
+        // Xử lý hình ảnh nếu có
+        if ($request->hasFile('hinh')) {
+            $file = $request->file('hinh');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $filename);
+            $sanpham->hinh = $filename;
+        }
+
+        $sanpham->save();
+
+        return redirect()->back()->with('success', 'Thêm sản phẩm thành công!');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Thêm sản phẩm thất bại: ' . $e->getMessage());
     }
+           
+}
+}
+
 
