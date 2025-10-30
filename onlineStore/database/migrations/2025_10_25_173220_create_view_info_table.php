@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             
             // ⚠️ PHẢI dùng cùng kiểu dữ liệu với masp (int)
-            $table->unsignedInteger('product_id'); 
+            $table->unsignedInteger('masp'); 
             
             $table->string('ip_address')->nullable();
             $table->timestamps();
@@ -26,8 +26,6 @@ return new class extends Migration
                 ->on('sanpham')
                 ->onDelete('cascade');
         });
-
-
     }
 
     /**

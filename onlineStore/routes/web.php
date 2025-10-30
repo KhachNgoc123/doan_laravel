@@ -8,7 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SanPhamController;
 use Illuminate\Support\Facades\DB;
 use App\Http\Middleware\AdminMiddleware;
-
+use App\Http\Controllers\DanhMucController;
 //kiểm tra kết nối DB 
     Route::get('/check_db', function () {
     try {
@@ -42,6 +42,9 @@ use App\Http\Middleware\AdminMiddleware;
     Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.post');
 
     Route::view('/admin/login', 'admin.pages.login')->name('admin.login');
+// trang logout cua admin 
+
+    Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
 // ------trang phan he admin -------
 
@@ -50,18 +53,12 @@ Route::middleware(AdminMiddleware::class)->group(function () {
     Route::get('/ad',function(){
         return view('layouts.admin');
     });
-// trang logout cua admin 
-    Route::get('/logout',[AdminController::class,'logout']);
+
 // Thêm sản phẩm (hiển thị form)
     Route::get('/addproduct', [SanPhamController::class, 'create'])->name('sanpham.create');
-// Thêm sản phẩm (hiển thị form)
-    Route::get('/addproduct', [SanPhamController::class, 'create'])->name('sanpham.create');
-// Lưu sản phẩm (xử lý form)
+// Lưu sản phẩm (xử lý form
     Route::post('/sanpham/store', [SanPhamController::class, 'store'])->name('sanpham.store');
-// Quản lý sản phẩm
-    Route::get('/allproduct', function () {
-        return view('admin.pages.allproduct'); 
-    });
+
 
 });
 

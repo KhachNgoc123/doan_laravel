@@ -38,7 +38,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Thông Tin</h6>
                         <a class="collapse-item" href="/addproduct">Thêm Sản Phẩm</a>
-                        <a class="collapse-item" href="/allproduct">Danh Sách Sản Phẩm</a>
+                        <a class="collapse-item" href="/admin/sanpham">Danh Sách Sản Phẩm</a>
                     </div>
                 </div>
             </li>
@@ -51,6 +51,8 @@
                     <span>Utilities</span>
                 </a>               
             </li>
+          
+
              <a class="nav-link text-center mt-auto py-3 text-white"
             href="#"
             data-toggle="modal"

@@ -6,11 +6,7 @@ use App\Models\DanhMucModel;
 
 class SanPhamController extends Controller {
 // Hiển thị danh sách sản phẩm đầy đủ 
-     public function index()
-    {
-        $sanpham = SanPhamModel::all();
-        return view('admin.sanpham.index', compact('sanpham'));
-    }
+   
 //hiển thị form thêm sản phẩm 
     public function create() {
         $danhmuc = DanhMucModel::all(); // Lấy tất cả danh mục
