@@ -26,7 +26,7 @@ class AdminController extends Controller
 
          //tim user theo email
         $admin = UserModel::where('email', $request->email)->first();
-        \Log::info('Kết quả tìm user:', [$admin]);
+        Log::info('Kết quả tìm user:', [$admin]);
         // neu ton tai va mk dung
         if ($admin && Hash::check($request->password, $admin->password)) {
     
@@ -47,7 +47,7 @@ class AdminController extends Controller
         else 
         {
                 // Nếu sai tài khoản hoặc mật khẩu
-            \Log::warning('Sai tài khoản hoặc mật khẩu:', [$request->email]);
+            Log::warning('Sai tài khoản hoặc mật khẩu:', [$request->email]);
             return back()->with('error', 'Sai tài khoản hoặc mật khẩu');
         }
 

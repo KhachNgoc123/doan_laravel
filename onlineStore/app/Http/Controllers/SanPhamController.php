@@ -9,8 +9,7 @@ class SanPhamController extends Controller {
      public function index()
     {
         $sanpham = SanPhamModel::all();
-        return view('admin.sanpham.index', compact('sanpham'));
-    }
+        return view('admin.pages.allproduct', compact('sanpham'));    }
 //hiển thị form thêm sản phẩm 
     public function create() {
         $danhmuc = DanhMucModel::all(); // Lấy tất cả danh mục

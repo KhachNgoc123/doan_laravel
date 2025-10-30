@@ -51,17 +51,13 @@ Route::middleware(AdminMiddleware::class)->group(function () {
         return view('layouts.admin');
     });
 // trang logout cua admin 
-    Route::get('/logout',[AdminController::class,'logout']);
-// Thêm sản phẩm (hiển thị form)
-    Route::get('/addproduct', [SanPhamController::class, 'create'])->name('sanpham.create');
+    Route::get('/admin/logout',[AdminController::class,'logout'])->name('admin.logout');
 // Thêm sản phẩm (hiển thị form)
     Route::get('/addproduct', [SanPhamController::class, 'create'])->name('sanpham.create');
 // Lưu sản phẩm (xử lý form)
     Route::post('/sanpham/store', [SanPhamController::class, 'store'])->name('sanpham.store');
-// Quản lý sản phẩm
-    Route::get('/allproduct', function () {
-        return view('admin.pages.allproduct'); 
-    });
+// Hiển thị danh sách sản phẩm
+    Route::get('/ad/allproduct', [SanPhamController::class, 'index'])->name('sanpham.index');
 
 });
 
